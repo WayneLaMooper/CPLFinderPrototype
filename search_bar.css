@@ -1,0 +1,7 @@
+.search_bar {
+    font-size: 2em;
+    width: 25em;
+    border-radius: 15px;
+    padding: 10px;
+    border: 2px solid #ccc;
+}
