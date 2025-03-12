@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to CPL Finder</title>
+    <link rel="stylesheet" href="body.css" />
+    <link rel="stylesheet" href="nav_bar.css" />
+    <link rel="stylesheet" href="home_search.css" />
+    <style>
+        .map-container {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            margin: 20px auto;
+            background: url('images/Calgary.png') no-repeat center center;
+            background-size: cover;
+            border: 2px solid #000;
+        }
+
+        .marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            display: none;
+        }
+
+        /* Autocomplete styles */
+        .autocomplete-container {
+            position: relative;
+            display: inline-block;
+            width: 220px;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #ccc;
+            border-top: none;
+            background-color: white;
+            max-height: 150px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .autocomplete-items div:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Proceed button */
+        .proceed-button {
+            display: none;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .proceed-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="nav_bar">
+        <img src="images/cpl_logo.png" alt="Calgary Public Library Logo" class="logo_img" />
+        <ul>
+            <li><a href="/home.html">Home</a></li>
+            <li><a href="/book.html">Books</a></li>
+            <li><a href="/studySpace.html">Study Spaces</a></li>
+        </ul>
+    </header>
+
+    <section class="home_search">
+        <h2>Study Space</h2>
+        <div class="autocomplete-container">
+            <input type="text" id="search" placeholder="Search for study spaces..." onkeyup="showSuggestions()">
+            <div id="autocomplete-list" class="autocomplete-items"></div>
+        </div>
+        <button type="submit" onclick="findLibrary()">Search</button>
+    </section>
+
+    <section class="map-container">
+        <div id="marker" class="marker"></div>
+    </section>
+
+    <button id="proceedBtn" class="proceed-button" onclick="goToNextPage()">Proceed</button>
+
+    <script>
+        const libraries = {
+            "Central Library": { x: 250, y: 150 },
+            "Fish Creek Library": { x: 240, y: 200 },
+            "Crowfoot Library": { x: 150, y: 25 },
+            "Shawnessy Library": { x: 225, y: 280 }
+        };
+
+        function showSuggestions() {
+            const input = document.getElementById("search").value.toLowerCase();
+            const listContainer = document.getElementById("autocomplete-list");
+
+            listContainer.innerHTML = ""; // Clear previous suggestions
+
+            if (!input) return;
+
+            Object.keys(libraries).forEach(library => {
+                if (library.toLowerCase().includes(input)) {
+                    const suggestion = document.createElement("div");
+                    suggestion.textContent = library;
+                    suggestion.onclick = () => {
+                        document.getElementById("search").value = library;
+                        listContainer.innerHTML = ""; // Hide suggestions after selection
+                    };
+                    listContainer.appendChild(suggestion);
+                }
+            });
+        }
+
+        function findLibrary() {
+            const input = document.getElementById("search").value.trim();
+            const marker = document.getElementById("marker");
+            const proceedBtn = document.getElementById("proceedBtn");
+
+            if (libraries[input]) {
+                marker.style.left = libraries[input].x + "px";
+                marker.style.top = libraries[input].y + "px";
+                marker.style.display = "block";
+                proceedBtn.style.display = "block"; // Show proceed button
+            } else {
+                alert("Library not found!");
+                marker.style.display = "none";
+                proceedBtn.style.display = "none"; // Hide proceed button if not found
+            }
+        }
+
+        function goToNextPage() {
+            const libraryName = document.getElementById("search").value.trim();
+            if (libraries[libraryName]) {
+                window.location.href = `innerLibrary.html?library=${encodeURIComponent(libraryName)}`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

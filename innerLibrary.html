@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="body.css" />
+    <link rel="stylesheet" href="nav_bar.css" />
+    <link rel="stylesheet" href="home_search.css" />
+    <title>Library Room Booking</title>
+    <style>
+        .indoorLib {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .library-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 600px;
+            height: 400px;
+            border: 2px solid black;
+            padding: 20px;
+            position: relative;
+            background-color: #f0f0f0;
+        }
+
+        .bookshelves {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .shelf {
+            width: 180px;
+            height: 60px;
+            background: repeating-linear-gradient(45deg,
+                    brown,
+                    brown 5px,
+                    #a0522d 5px,
+                    #a0522d 10px);
+            border: 2px solid black;
+        }
+
+        .table-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .table {
+            width: 120px;
+            height: 60px;
+            background-color: #d3d3d3;
+            position: relative;
+            border: 2px solid black;
+        }
+
+        .chair-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .chair {
+            width: 15px;
+            height: 15px;
+            background-color: gray;
+            border: 1px solid black;
+        }
+
+        .room-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .room {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid black;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .available {
+            background-color: green;
+            color: white;
+        }
+
+        .booked {
+            background-color: red;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .room-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            /* Adds space between table-area and room-section */
+            margin-top: 20px;
+            /* Adds space above the room section */
+        }
+    </style>
+</head>
+
+<body>
+    <header class="nav_bar">
+        <img src="images/cpl_logo.png" alt="Calgary Public Library Logo" class="logo_img" />
+        <ul>
+            <li><a href="/home.html">Home</a></li>
+            <li><a href="/book.html">Books</a></li>
+            <li><a href="/studySpace.html">Study Spaces</a></li>
+        </ul>
+    </header>
+    <div class="indoorLib">
+        <h2 id="library-name"></h2>
+        <p id="library-details"></p>
+
+        <div class="library-layout">
+            <div class="bookshelves">
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+            </div>
+            <div class="room-layout">
+                <div class="table-area">
+                    <div class="chair-container">
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                    </div>
+                    <div class="table"></div>
+                    <div class="chair-container">
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                    </div>
+                </div>
+                <div class="room-section" id="room-map"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const libraries = {
+            "Central Library": { total_rooms: 5, room_status: [true, false, true, false, true] },
+            "Fish Creek Library": { total_rooms: 3, room_status: [false, true, false] },
+            "Crowfoot Library": { total_rooms: 4, room_status: [false, false, true, false] },
+            "Shawnessy Library": { total_rooms: 6, room_status: [false, true, false, false, true, false] }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const libraryName = params.get("library");
+
+        const libraryNameElement = document.getElementById("library-name");
+        const libraryDetailsElement = document.getElementById("library-details");
+        const roomMapElement = document.getElementById("room-map");
+
+        if (libraryName && libraries[libraryName]) {
+            const library = libraries[libraryName];
+            libraryNameElement.textContent = `You selected: ${libraryName}`;
+
+            const availableRooms = library.room_status.filter(status => status).length;
+            libraryDetailsElement.textContent = `Total Rooms: ${library.total_rooms}, Available Rooms: ${availableRooms}`;
+
+            library.room_status.forEach((status, index) => {
+                const roomDiv = document.createElement("div");
+                roomDiv.classList.add("room");
+                roomDiv.textContent = `R${index + 1}`;
+
+                if (status) {
+                    roomDiv.classList.add("available");
+                } else {
+                    roomDiv.classList.add("booked");
+                }
+
+                roomMapElement.appendChild(roomDiv);
+            });
+        } else {
+            libraryNameElement.textContent = "No valid library selected.";
+        }
+    </script>
+</body>
+
+</html>
