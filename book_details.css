@@ -1,0 +1,43 @@
+.book_details {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+.book-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.book-image {
+  width: 200px;
+  height: 200px;
+  background-color: #ccc;
+  border-radius: 8px;
+}
+
+.book-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.book-info p {
+  font-size: 1rem;
+  margin: 0.4rem 0;
+}
+
+.status.available {
+  color: green;
+  font-weight: bold;
+}
+
+.location-box {
+  display: inline-block;
+  border: 1px solid #000;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  background-color: #f2f2f2;
+}
