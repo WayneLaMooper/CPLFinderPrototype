@@ -1,0 +1,55 @@
+search_results_html = """
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Results - CPL Finder</title>
+    <link rel="stylesheet" href="body.css" />
+    <link rel="stylesheet" href="nav_bar.css" />
+    <link rel="stylesheet" href="search_bar.css" />
+    <link rel="stylesheet" href="search_button.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <header class="nav_bar">
+      <img src="images/cpl_logo.png" alt="Calgary Public Library Logo" class="logo_img" />
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="#books">Books</a></li>
+        <li><a href="#studyspaces">Study Spaces</a></li>
+      </ul>
+    </header>
+
+    <section class="home_search">
+      <form action="#searching">
+        <input class="search_bar" type="text" placeholder="Search for Titles, Authors, Genres..." />
+        <button class="search_button" type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+    </section>
+
+    <section class="search_results">
+      <p>Tag: <span style="background-color: #ddd; padding: 4px;">Christopher Robin</span></p>
+
+      <div class="book-entry">
+        <div class="book-image-placeholder" style="width:100px; height:100px; background:#ccc;"></div>
+        <div class="book-info">
+          <h3>Christopher Robin</h3>
+          <p>by Art Thor</p>
+        </div>
+      </div>
+
+      <div class="book-entry">
+        <div class="book-image-placeholder" style="width:100px; height:100px; background:#ccc;"></div>
+        <div class="book-info">
+          <h3>Christopher Robin</h3>
+          <p>by Arthur Thorox</p>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+"""
