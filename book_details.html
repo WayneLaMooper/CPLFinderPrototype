@@ -1,8 +1,13 @@
 <html>
   <head>
     <title>Book Details - CPL Finder</title>
-    <link rel="stylesheet" href="body.css" />
-    <link rel="stylesheet" href="nav_bar.css" />
+    <link rel="stylesheet" href="./home css/body.css" />
+    <link rel="stylesheet" href="./home css/nav_bar.css" />
+    <link rel="stylesheet" href="./home css/home_search.css" />
+    <link rel="stylesheet" href="./home css/search_bar.css" />
+    <link rel="stylesheet" href="./home css/search_button.css" />
+    <link rel="stylesheet" href="./home css/advanced_search.css"/>
+    <link rel="stylesheet" href="./home css/home_info.css"/>
     <link rel="stylesheet" href="book_details.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   </head>
@@ -23,14 +28,73 @@
         <div class="book-info">
           <h2>Christopher Robin</h2>
           <p><strong>By:</strong> Arthur Thorox</p>
-          <p><strong>Published:</strong> 2001</p>
-          <p><strong>Status:</strong> <span class="status available">Available</span></p>
+          <p><strong>Published:</strong> January 1, 2001</p>
           <p><strong>Catalog:</strong> COAS015</p>
+          <p><strong>Genre:</strong> Fiction</p>
+            <div class="autocomplete-container">
+                <input type="text" id="search" placeholder="Search for Libraries..." onkeyup="showSuggestions()">
+                <div id="autocomplete-list" class="autocomplete-items"></div>
+            </div>
+            <button type="submit" onclick="findLibrary()">Search</button>
+          <p><strong>Status:</strong> <span class="status available">Available</span></p>
           <p><strong>Floor:</strong> <span class="location-box">3</span></p>
           <p><strong>Aisle:</strong> <span class="location-box">E</span></p>
         </div>
       </div>
     </section>
+    <script>
+      const libraries = {
+          "Central Library": { x: 250, y: 150 },
+          "Fish Creek Library": { x: 240, y: 200 },
+          "Crowfoot Library": { x: 150, y: 25 },
+          "Shawnessy Library": { x: 225, y: 280 }
+      };
+
+      function showSuggestions() {
+          const input = document.getElementById("search").value.toLowerCase();
+          const listContainer = document.getElementById("autocomplete-list");
+
+          listContainer.innerHTML = ""; // Clear previous suggestions
+
+          if (!input) return;
+
+          Object.keys(libraries).forEach(library => {
+              if (library.toLowerCase().includes(input)) {
+                  const suggestion = document.createElement("div");
+                  suggestion.textContent = library;
+                  suggestion.onclick = () => {
+                      document.getElementById("search").value = library;
+                      listContainer.innerHTML = ""; // Hide suggestions after selection
+                  };
+                  listContainer.appendChild(suggestion);
+              }
+          });
+      }
+
+      function findLibrary() {
+          const input = document.getElementById("search").value.trim();
+          const marker = document.getElementById("marker");
+          const proceedBtn = document.getElementById("proceedBtn");
+
+          if (libraries[input]) {
+              marker.style.left = libraries[input].x + "px";
+              marker.style.top = libraries[input].y + "px";
+              marker.style.display = "block";
+              proceedBtn.style.display = "block"; // Show proceed button
+          } else {
+              alert("Library not found!");
+              marker.style.display = "none";
+              proceedBtn.style.display = "none"; // Hide proceed button if not found
+          }
+      }
+
+      function goToNextPage() {
+          const libraryName = document.getElementById("search").value.trim();
+          if (libraries[libraryName]) {
+              window.location.href = `innerLibrary.html?library=${encodeURIComponent(libraryName)}`;
+          }
+      }
+  </script>
   </body>
 </html>
 
