@@ -1,0 +1,66 @@
+/* Overall navbar style */
+.nav_bar {
+  background-color: rgb(223, 223, 223);
+  display: flex;
+  align-items: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: black;
+  padding: 1rem 2rem; /* Increased padding for more spacing around the navbar */
+  width: 100%;
+  border-bottom: 2px solid #ddd; /* Add bottom border for more definition */
+}
+
+/* Logo styling */
+.nav_bar .logo_img {
+  width: 12em;
+  height: auto;
+  margin-right: 20px; /* Space between the logo and the nav items */
+}
+
+/* Navbar unordered list */
+.nav_bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start; /* Align items to the left */
+}
+
+/* Navbar list items (tabs) */
+.nav_bar li {
+  position: relative;
+  margin-right: 20px; /* Add space between items */
+}
+
+/* Navbar links */
+.nav_bar li a {
+  display: block;
+  text-align: center;
+  padding: 16px 20px; /* Increased padding to make selections larger */
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  background-color: #f1f1f1; /* Light background for contrast */
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-size: 16px; /* Increase font size for better visibility */
+}
+
+.nav_bar li a:hover {
+  background-color: #4CAF50;
+  color: white;
+  transform: scale(1.05);
+}
+
+#library-location {
+  margin-left: auto;
+  margin-right: 5vw;
+}
+
+#library-location #info_text {
+  font-size: 14px; /* Text size */
+  font-weight: normal; /* Regular weight */
+  color: #555; /* Slightly lighter color */
+}

@@ -1,0 +1,38 @@
+.advanced_search {
+    margin-left: 21em;
+    margin-right: 21em;
+    padding: 1em;
+    text-align: left;
+    background-color: rgb(223, 223, 223);
+
+    border-radius: 15px;
+    padding: 10px;
+    border: 2px solid #ccc;
+}
+
+.advanced_search h3 {
+    margin-left: 1em;
+    color: rgb(66, 62, 62);
+}
+
+.advanced_search_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    margin-right: 25em;
+    padding: 1em;
+
+}
+
+.advanced_text {
+    font-size: 1em;
+}
+
+.advanced_field {
+    font-size: 1em;
+    width: 15em;
+    border-radius: 15px;
+    padding: 10px;
+    border: 2px solid #ccc;
+}

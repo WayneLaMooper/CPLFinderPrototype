@@ -1,0 +1,210 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+    backdrop-filter: blur(8px); /* Apply blur to the background */
+    z-index: 999; /* Ensure overlay is on top */
+    display: none; /* Initially hidden */
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Popup window */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the popup */
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure popup is on top */
+    display: none; /* Initially hidden */
+    width: 90%; /* Makes popup responsive */
+    max-width: 800px; /* Maximum width */
+    max-height: 80vh; /* Limit the height */
+    text-align: center;
+    overflow: hidden; /* Hide overflow */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+
+  #quadrantFilter {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;  /* Use full width */
+    display: flex;
+    flex-wrap: wrap;  /* Allows elements to wrap into multiple lines */
+    justify-content: flex-start; /* Aligns the checkboxes to the left */
+    gap: 10px;  /* Reduced gap between checkboxes */
+  }
+  
+  /* Label for the checkbox */
+  #quadrantFilter label {
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;  /* Center checkbox and label text */
+    gap: 5px;  /* Reduced space between checkbox and label text */
+    margin-bottom: 0;  /* Remove bottom margin */
+  }
+  
+  /* Style for the checkboxes */
+  #quadrantFilter input[type="checkbox"] {
+    transform: scale(1.2);  /* Slightly larger checkbox */
+    cursor: pointer;
+    margin-bottom: 0;  /* Remove bottom margin */
+  }
+  
+  /* Hover effect on the checkbox labels */
+  #quadrantFilter label:hover {
+    color: #4CAF50;  /* Highlight the label color on hover */
+    transition: color 0.3s ease;  /* Smooth transition */
+  }
+  
+  /* Quadrant Filter Container - Responsive for mobile */
+  @media (max-width: 768px) {
+    #quadrantFilter {
+      padding: 15px;
+      flex-direction: column;  /* Stack elements vertically on smaller screens */
+      align-items: flex-start;  /* Align items to the left */
+      gap: 10px;
+    }
+  
+    #quadrantFilter label {
+      font-size: 16px;
+    }
+  
+    #quadrantFilter input[type="checkbox"] {
+      transform: scale(1.3);  /* Slightly larger checkboxes for mobile */
+    }
+  }
+  
+  /* Popup heading */
+  .popup h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* Button inside popup */
+  .popup button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #closePopup {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: red;
+    font-size: 1rem; 
+  }
+
+  #closePopup:hover{
+    background-color: rgb(190, 35, 35);
+  }
+  
+  .popup button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Library grid */
+  .library-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 libraries horizontally */
+    gap: 20px;
+    padding: 20px 0;
+    max-height: 300px; /* Limit height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Disable horizontal scrolling */
+  }
+  
+  /* Individual library item */
+  .library-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%; /* Ensure items fill the available space */
+  }
+  
+  .library-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover; /* Ensure images are well-fitted */
+  }
+  
+  .library-item h3 {
+    margin: 15px 0;
+    font-size: 1.2rem;
+  }
+  
+  .library-item p {
+    margin: 0 0 15px 0;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .library-item button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .library-item button:hover {
+    background-color: #45a049;
+  }
+  
+  @media (max-width: 768px) {
+    .popup {
+      width: 95%;
+      padding: 20px;
+      max-height: 80vh;
+    }
+  
+    .library-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Allow more flexibility on smaller screens */
+      gap: 10px;
+      max-height: 60vh; /* Adjust height for smaller screens */
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .popup {
+      width: 95%;
+      padding: 15px;
+    }
+  
+    .library-grid {
+      grid-template-columns: 1fr; /* Stack items vertically on very small screens */
+      gap: 10px;
+      max-height: 50vh;
+    }
+  }

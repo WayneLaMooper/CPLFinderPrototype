@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Shawnessy Library",
+        "address": "333 Shawville Blvd SE, Calgary, AB T2Y 4H3",
+        "quadrant": "SE",
+        "image": "images/shawnessy.jpg"
+    },
+    {
+        "name": "Village Square Library",
+        "address": "2623 56 St NE, Calgary, AB T1Y 6E7",
+        "quadrant": "NE",
+        "image": "images/village_square.jpg"
+    }
+]

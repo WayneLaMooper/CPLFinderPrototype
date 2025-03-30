@@ -1,30 +1,83 @@
 <html>
   <head>
     <title>Search Results - CPL Finder</title>
-    <link rel="stylesheet" href="body.css" />
-    <link rel="stylesheet" href="nav_bar.css" />
-    <link rel="stylesheet" href="search_bar.css" />
-    <link rel="stylesheet" href="search_button.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="./home css/body.css" />
+    <link rel="stylesheet" href="./home css/nav_bar.css" />
+    <link rel="stylesheet" href="./home css/home_search.css" />
+    <link rel="stylesheet" href="./home css/search_bar.css" />
+    <link rel="stylesheet" href="./home css/search_button.css" />
+    <link rel="stylesheet" href="./home css/advanced_search.css"/>
+    <link rel="stylesheet" href="./home css/home_info.css"/>
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      />
   </head>
   <body>
     <header class="nav_bar">
-      <img src="images/cpl_logo.png" alt="Calgary Public Library Logo" class="logo_img" />
+      <img
+        src="images/cpl_logo.png"
+        alt="Calgary Public Library Logo"
+        class="logo_img"
+      />
       <ul>
-        <li><a href="home.html">Home</a></li>
+        <li><a href="#home">Home</a></li>
         <li><a href="#books">Books</a></li>
-        <li><a href="study_space.html">Study Spaces</a></li>
+        <li><a href="#studyspaces">Study Spaces</a></li>
       </ul>
       <h1>Welcome to CPL Finder</h1>
     </header>
-
     <section class="home_search">
       <form action="#searching">
-        <input class="search_bar" type="text" placeholder="Search for Titles, Authors, Genres..." />
+        <button class="advanced_search_button" onclick="toggleAdvanced()">
+          Advanced Search
+        </button>
+        <input
+          class="search_bar"
+          type="text"
+          placeholder="Search for Titles..."
+        />
         <button class="search_button" type="submit">
           <i class="fa fa-search"></i>
         </button>
       </form>
+      <div class="advanced_search">
+        <h3>Find the book you're looking for with Advanced Searching details</h3>
+        <div class="advanced_search_box">
+          <label for="genre" class="advanced_text">Select a Book Genre (Use autofill):</label>
+          <input list="genres" id="genre" name="genre" placeholder="Start typing to search..." class="advanced_field">
+          <datalist id="genres">
+              <option value="Fiction">
+              <option value="Non-fiction">
+              <option value="Mystery">
+              <option value="Fantasy">
+              <option value="Science Fiction">
+              <option value="Historical Fiction">
+              <option value="Biography">
+              <option value="Romance">
+              <option value="Thriller">
+              <option value="Self-help">
+              <option value="Art"></option>
+          </datalist>
+        </div>
+        <div class="advanced_search_box">
+          <label for="author" class="advanced_text">Enter Author Name:</label>
+          <input list="authors" id="author" name="author" placeholder="Start typing to search..." class="advanced_field">
+          <datalist id="authors">
+            <option value="Christopher J. Robin">
+            <option value="Christopher Walker">
+            <option value="Christopher Wilson">
+            <option value="Roald Dahl">
+            <option value="Robert Munch">
+        </datalist>
+        </div>
+        <div class="advanced_search_box">
+          <label class="advanced_text">Released between:</label>
+          <input type="date" id="release_time" name="release_time" class="advanced_field">
+          to
+          <input type="date" id="release_time" name="release_time" class="advanced_field">
+        </div>
+      </div>
     </section>
 
     <section class="search_results" style="padding: 2rem;">
@@ -46,5 +99,22 @@
         </div>
       </div>
     </section>
+    <script>
+      const genreInput = document.getElementById("genre");
+      genreInput.addEventListener("input", function() {
+          console.log(genreInput.value);
+      });
+
+      function toggleAdvanced() {
+        if (advanced_menu.style.display === "none") {
+          advanced_menu.style.display = "block";
+        } else {
+          advanced_menu.style.display = "none";
+        }
+      };
+
+      let advanced_menu = document.getElementsByClassName("advanced_search")[0];
+      advanced_menu.style.display = "none";
+  </script>
   </body>
 </html>
