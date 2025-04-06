@@ -41,7 +41,7 @@
         class="logo_img"
       />
       <ul>
-        <li><a href="#home">Home</a></li>
+        <li><a href="./home.html">Home</a></li>
         <li><a href="#books">Books</a></li>
         <li><a href="#studyspaces">Study Spaces</a></li>
         <li id="library-location">
@@ -51,14 +51,15 @@
       </ul>
     </header>
     <section class="home_search">
-      <form action="#searching">
-        <button class="advanced_search_button" onclick="toggleAdvanced()">
+      <form action="./search_results.html" id="searchForm">
+        <button class="advanced_search_button">
           Advanced Search
         </button>
         <input
           class="search_bar"
           type="text"
           placeholder="Search for Titles..."
+          id="searchInput"
         />
         <button class="search_button" type="submit">
           <i class="fa fa-search"></i>

@@ -2,6 +2,7 @@
   <head>
     <title>Search Results - CPL Finder</title>
     <link rel="stylesheet" href="./home css/body.css" />
+    <link rel="stylesheet" href="./home css/pop_up.css"/>
     <link rel="stylesheet" href="./home css/nav_bar.css" />
     <link rel="stylesheet" href="./home css/home_search.css" />
     <link rel="stylesheet" href="./home css/search_bar.css" />
@@ -14,6 +15,24 @@
       />
   </head>
   <body>
+    <div id="overlay" class="overlay"></div>
+
+    <div id="popup" class="popup">
+      <h2>Welcome to CPL Finder!</h2>
+      <p>Please choose your library from the following for a more catered experience:
+        <br> (This can be changed at any time)
+      </p>
+      <div id="quadrantFilter">
+        Filter by quadrant:
+        <label><input type="checkbox" value="NE"> NE</label><br>
+        <label><input type="checkbox" value="NW"> NW</label><br>
+        <label><input type="checkbox" value="SE"> SE</label><br>
+        <label><input type="checkbox" value="SW"> SW</label><br>
+      </div>
+      <div id="libraryGrid" class="library-grid"></div>
+      <button id="closePopup">Skip</button>
+    </div>
+
     <header class="nav_bar">
       <img
         src="images/cpl_logo.png"
@@ -21,21 +40,25 @@
         class="logo_img"
       />
       <ul>
-        <li><a href="#home">Home</a></li>
+        <li><a href="./home.html">Home</a></li>
         <li><a href="#books">Books</a></li>
         <li><a href="#studyspaces">Study Spaces</a></li>
+        <li id="library-location">
+          <a href="#">Selected Library: <span id="library-name">None</span><br />
+            <span id="info_text">Click here to Change</span></a>
+        </li>
       </ul>
-      <h1>Welcome to CPL Finder</h1>
     </header>
     <section class="home_search">
-      <form action="#searching">
-        <button class="advanced_search_button" onclick="toggleAdvanced()">
+      <form action="./search_results.html" id="searchForm">
+        <button class="advanced_search_button">
           Advanced Search
         </button>
         <input
           class="search_bar"
           type="text"
           placeholder="Search for Titles..."
+          id="searchInput"
         />
         <button class="search_button" type="submit">
           <i class="fa fa-search"></i>
@@ -99,22 +122,6 @@
         </div>
       </div>
     </section>
-    <script>
-      const genreInput = document.getElementById("genre");
-      genreInput.addEventListener("input", function() {
-          console.log(genreInput.value);
-      });
-
-      function toggleAdvanced() {
-        if (advanced_menu.style.display === "none") {
-          advanced_menu.style.display = "block";
-        } else {
-          advanced_menu.style.display = "none";
-        }
-      };
-
-      let advanced_menu = document.getElementsByClassName("advanced_search")[0];
-      advanced_menu.style.display = "none";
-  </script>
+    <script type="module" src="js/index.js"></script>
   </body>
 </html>
