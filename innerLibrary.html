@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./home css/body.css" />
+    <link rel="stylesheet" href="./home css/pop_up.css" />
+    <link rel="stylesheet" href="./home css/nav_bar.css" />
+    <link rel="stylesheet" href="./home css/home_search.css" />
+    <link rel="stylesheet" href="./home css/search_bar.css" />
+    <link rel="stylesheet" href="./home css/search_button.css" />
+    <link rel="stylesheet" href="./home css/advanced_search.css" />
+    <link rel="stylesheet" href="./home css/home_info.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <title>Library Room Booking</title>
+    <style>
+        .indoorLib {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .library-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 600px;
+            height: 400px;
+            border: 2px solid black;
+            padding: 20px;
+            position: relative;
+            background-color: #f0f0f0;
+        }
+
+        .bookshelves {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .shelf {
+            width: 180px;
+            height: 60px;
+            background: repeating-linear-gradient(45deg,
+                    grey,
+                    grey 5px,
+                    #a5a5a5 5px,
+                    #a5a5a5 10px);
+            border: 2px solid black;
+        }
+
+        .table-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .table {
+            width: 120px;
+            height: 60px;
+            background-color: #d3d3d3;
+            position: relative;
+            border: 2px solid black;
+        }
+
+        .chair-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .chair {
+            width: 15px;
+            height: 15px;
+            background-color: gray;
+            border: 1px solid black;
+        }
+
+        .room-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .room {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid black;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .available {
+            background-color: green;
+            color: white;
+        }
+
+        .booked {
+            background-color: red;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .room-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            /* Adds space between table-area and room-section */
+            margin-top: 20px;
+            /* Adds space above the room section */
+        }
+    </style>
+</head>
+
+<body>
+    <header class="nav_bar">
+        <img src="images/cpl_logo.png" alt="Calgary Public Library Logo" class="logo_img" />
+        <ul>
+            <li><a href="/home.html">Home</a></li>
+            <li><a href="/book.html">Books</a></li>
+            <li><a href="/studySpace.html">Study Spaces</a></li>
+        </ul>
+    </header>
+
+    <div class="indoorLib">
+        <div style="margin: 30px auto; display: flex; gap: 20px; justify-content: center;">
+            <div>
+                <label for="librarySelect">Select Library:</label>
+                <select id="librarySelect">
+                    <option value="">--Choose Library--</option>
+                </select>
+            </div>
+            <div>
+                <label for="timeSelect">Select Booking Hour:</label>
+                <select id="timeSelect" disabled>
+                    <option value="">--Choose Time--</option>
+                </select>
+            </div>
+        </div>
+
+        <h2 id="library-name"></h2>
+        <p id="library-details"></p>
+        <div style="margin-top: 40px; max-width: 600px; padding: 10px; border: 1px solid #ccc; background-color: #fff;">
+            <h3>Legend</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 14px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; background-color: green; border: 2px solid black;"></div>
+                    <span>Available Room</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; background-color: red; border: 2px solid black;"></div>
+                    <span>Booked Room</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 30px; height: 15px; background-color: #d3d3d3; border: 2px solid black;"></div>
+                    <span>Table</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 15px; height: 15px; background-color: gray; border: 1px solid black;"></div>
+                    <span>Chair</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div
+                        style="width: 30px; height: 20px; background: repeating-linear-gradient(45deg, grey, grey 5px, #a5a5a5 5px, #a5a5a5 10px); border: 2px solid black;">
+                    </div>
+                    <span>Bookshelf</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="library-layout">
+            <div class="bookshelves">
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+                <div class="shelf"></div>
+            </div>
+            <div class="room-layout">
+                <div class="table-area">
+                    <div class="chair-container">
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                    </div>
+                    <div class="table"></div>
+                    <div class="chair-container">
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                        <div class="chair"></div>
+                    </div>
+                </div>
+                <div class="room-section" id="room-map"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const libraries = {
+            "Central Library": {
+                total_rooms: 5,
+                room_status: {
+                    "12:00": [true, false, true, false, true],
+                    "13:00": [false, true, false, true, false],
+                    "14:00": [true, true, false, false, true]
+                },
+                layout_type: 0
+            },
+            "Fish Creek Library": {
+                total_rooms: 3,
+                room_status: {
+                    "12:00": [true, false, true],
+                    "13:00": [false, false, true],
+                    "14:00": [true, true, false]
+                },
+                layout_type: 1
+            },
+            "Crowfoot Library": {
+                total_rooms: 4,
+                room_status: {
+                    "2:00": [false, true, true, false],
+                    "3:00": [true, false, false, true],
+                    "4:00": [false, false, true, true]
+                },
+                layout_type: 0
+            },
+            "Shawnessy Library": {
+                total_rooms: 6,
+                room_status: {
+                    "12:00": [true, false, true, false, false, true],
+                    "13:00": [false, true, false, true, true, false],
+                    "14:00": [true, true, false, false, true, false]
+                },
+                layout_type: 1
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const librarySelect = document.getElementById("librarySelect");
+            const timeSelect = document.getElementById("timeSelect");
+            const libraryNameElement = document.getElementById("library-name");
+            const libraryDetailsElement = document.getElementById("library-details");
+            const roomMapElement = document.getElementById("room-map");
+
+            // Populate Library Dropdown
+            for (const libName in libraries) {
+                const option = document.createElement("option");
+                option.value = libName;
+                option.textContent = libName;
+                librarySelect.appendChild(option);
+            }
+
+            // Get library from URL
+            const params = new URLSearchParams(window.location.search);
+            const urlLibrary = params.get("library");
+
+            if (urlLibrary && libraries[urlLibrary]) {
+                librarySelect.value = urlLibrary;
+
+                const selectedLibrary = libraries[urlLibrary];
+                timeSelect.innerHTML = '<option value="">--Choose Time--</option>';
+                for (const time in selectedLibrary.room_status) {
+                    const option = document.createElement("option");
+                    option.value = time;
+                    option.textContent = time;
+                    timeSelect.appendChild(option);
+                }
+                timeSelect.disabled = false;
+
+                libraryNameElement.textContent = `You selected: ${urlLibrary}`;
+                libraryDetailsElement.textContent = "Please select a time to view room availability.";
+
+                // Call updateLayout with the layout type of the selected library
+                updateLayout(urlLibrary);
+
+            } else {
+                timeSelect.disabled = true;
+            }
+
+            // Function to update library layout based on the selected library
+            function updateLayout(selectedLibrary) {
+                // Clear existing layout
+                console.log("Updating layout for library:", selectedLibrary);
+                const layoutContainer = document.querySelector('.library-layout');
+                const layoutType = libraries[selectedLibrary].layout_type;
+                const room_amount = libraries[selectedLibrary].total_rooms;
+                const room_status = libraries[selectedLibrary].room_status;
+                if (!layoutContainer) {
+                    console.error("Layout container not found.");
+                    return;
+                }
+
+                layoutContainer.innerHTML = ''; // Reset the layout container
+
+                if (layoutType === 0) {
+                    // Layout 0: Room layout below bookshelves
+                    layoutContainer.innerHTML = `
+                <div class="bookshelves">
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                </div>
+                <div class="room-layout">
+                    <div class="table-area">
+                        <div class="chair-container">
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                        </div>
+                        <div class="table"></div>
+                        <div class="chair-container">
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                        </div>
+                    </div>
+                    <div class="room-section" id="room-map">
+                        ${Array.from({ length: room_amount }, (_, index) => {
+                        return `<div class="room" id="room-${index + 1}">R${index + 1}</div>`;
+                    }).join('')}
+                    </div>
+                </div>
+            `;
+                } else if (layoutType === 1) {
+                    // Layout 1: Room layout above bookshelves
+                    layoutContainer.innerHTML = `
+                <div class="room-layout">
+                    <div class="room-section" id="room-map">
+                        ${Array.from({ length: room_amount }, (_, index) => {
+                        return `<div class="room" id="room-${index + 1}">R${index + 1}</div>`;
+                    }).join('')}
+                    </div>
+                    <div class="table-area">
+                        <div class="chair-container">
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                        </div>
+                        <div class="table"></div>
+                        <div class="chair-container">
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                            <div class="chair"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bookshelves">
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                    <div class="shelf"></div>
+                </div>
+            `;
+                } else {
+                    console.error("Unknown layout type:", layoutType);
+                }
+            }
+
+            // Handle dropdown change
+            librarySelect.addEventListener("change", () => {
+                const selectedLibrary = librarySelect.value;
+                localStorage.setItem("selectedLibrary", selectedLibrary);
+
+                const selectedLibraryObj = libraries[selectedLibrary];
+                roomMapElement.innerHTML = "";
+                libraryDetailsElement.textContent = "";
+                libraryNameElement.textContent = "";
+
+                if (selectedLibraryObj) {
+                    timeSelect.innerHTML = '<option value="">--Choose Time--</option>';
+                    for (const time in selectedLibraryObj.room_status) {
+                        const option = document.createElement("option");
+                        option.value = time;
+                        option.textContent = time;
+                        timeSelect.appendChild(option);
+                    }
+                    timeSelect.disabled = false;
+
+                    // Update layout based on selected library
+                    updateLayout(selectedLibrary);
+
+                } else {
+                    timeSelect.disabled = true;
+                }
+            });
+
+            timeSelect.addEventListener("change", () => {
+                const selectedLibrary = libraries[librarySelect.value];
+                const selectedTime = timeSelect.value;
+
+                if (!selectedLibrary || !selectedTime) return;
+
+                const roomStatus = selectedLibrary.room_status[selectedTime];
+                roomMapElement.innerHTML = "";
+                libraryNameElement.textContent = `You selected: ${librarySelect.value} at ${selectedTime}`;
+
+                const availableCount = roomStatus.filter(status => status).length;
+                libraryDetailsElement.textContent = `Total Rooms: ${selectedLibrary.total_rooms}, Available: ${availableCount}`;
+
+                roomStatus.forEach((status, index) => {
+                    const roomDiv = document.createElement("div");
+                    roomDiv.classList.add("room");
+                    roomDiv.textContent = `R${index + 1}`;
+                    roomDiv.classList.add(status ? "available" : "booked");
+                    roomMapElement.appendChild(roomDiv);
+                });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
