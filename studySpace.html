@@ -70,6 +70,22 @@
         .proceed-button:hover {
             background-color: #0056b3;
         }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
     </style>
 </head>
 
@@ -82,10 +98,17 @@
             <li><a href="/studySpace.html">Study Spaces</a></li>
         </ul>
     </header>
-
+    <!--  -->
     <section class="home_search">
         <h2>Study Space</h2>
         <div class="autocomplete-container">
+
+            <label for="date" class="input-label">Select Date:</label>
+            <input type="date" id="date" name="date" class="input-field">
+
+            <label for="time" class="input-label">Select Time:</label>
+            <input type="time" id="time" name="time" class="input-field">
+
             <input type="text" id="search" placeholder="Search for study spaces..." onkeyup="showSuggestions()">
             <div id="autocomplete-list" class="autocomplete-items"></div>
         </div>
