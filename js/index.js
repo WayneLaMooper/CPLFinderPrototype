@@ -78,6 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
       closeButton.addEventListener('click', function () {
         popup.style.display = 'none';
         overlay.style.display = 'none';
+        if (!selectedLibrary) {
+          sessionStorage.setItem('library-name', 'None')
+          localStorage.setItem('selectedLibrary', 'None');
+        }
       });
 
       popup.style.display = 'block';
@@ -248,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const releaseTo = urlParams.get('releaseTo') || '';
 
   // Build the search parameters string dynamically
-  let searchParamsText = ' Search results for:';
+  let searchParamsText = ' Search results for parameters:';
 
   if (searchTerm) {
     searchParamsText += `| Name: "${searchTerm}"`;
