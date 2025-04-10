@@ -41,8 +41,8 @@
       />
       <ul>
         <li><a href="./home.html">Home</a></li>
-        <li><a href="#books">Books</a></li>
-        <li><a href="#studyspaces">Study Spaces</a></li>
+        <li><a href="./search_results.html">Books</a></li>
+        <li><a href="#" onclick="goToStudySpaces()">Study Spaces</a></li>
         <li id="library-location">
           <a href="#">Selected Library: <span id="library-name">None</span><br />
             <span id="info_text">Click here to Change</span></a>
@@ -65,63 +65,35 @@
         </button>
       </form>
       <div class="advanced_search">
-        <h3>Find the book you're looking for with Advanced Searching details</h3>
+        <h3>Find the book you're looking for with Advanced Searching details (These fields are optional)</h3>
         <div class="advanced_search_box">
-          <label for="genre" class="advanced_text">Select a Book Genre (Use autofill):</label>
-          <input list="genres" id="genre" name="genre" placeholder="Start typing to search..." class="advanced_field">
-          <datalist id="genres">
-              <option value="Fiction">
-              <option value="Non-fiction">
-              <option value="Mystery">
-              <option value="Fantasy">
-              <option value="Science Fiction">
-              <option value="Historical Fiction">
-              <option value="Biography">
-              <option value="Romance">
-              <option value="Thriller">
-              <option value="Self-help">
-              <option value="Art"></option>
-          </datalist>
+          <label for="genre" class="advanced_text">Select Book Genres (Please select suggested genres):</label>
+          <input list="genres" id="genre" name="genre" placeholder="Start typing to filter genres..." class="advanced_field">
+          <datalist id="genres"></datalist>
+          
+          <div id="selectedGenres" class="selected-genres">
+            <!-- Selected genres will be displayed here -->
+          </div>
         </div>
+        
         <div class="advanced_search_box">
           <label for="author" class="advanced_text">Enter Author Name:</label>
-          <input list="authors" id="author" name="author" placeholder="Start typing to search..." class="advanced_field">
-          <datalist id="authors">
-            <option value="Christopher J. Robin">
-            <option value="Christopher Walker">
-            <option value="Christopher Wilson">
-            <option value="Roald Dahl">
-            <option value="Robert Munch">
-        </datalist>
+          <input list="authors" id="author" name="author" placeholder="Enter author name..." class="advanced_field">
+          <datalist id="authors"></datalist>
         </div>
+        
         <div class="advanced_search_box">
           <label class="advanced_text">Released between:</label>
-          <input type="date" id="release_time" name="release_time" class="advanced_field">
-          to
-          <input type="date" id="release_time" name="release_time" class="advanced_field">
+          <input type="date" id="release_time_from" name="release_time_from" class="advanced_field"> to
+          <input type="date" id="release_time_to" name="release_time_to" class="advanced_field">
         </div>
       </div>
     </section>
 
-    <section class="search_results" style="padding: 2rem;">
-      <p>Tag: <span style="background-color: #ddd; padding: 4px;">Christopher Robin</span></p>
-
-      <div class="book-entry" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-        <div class="book-image-placeholder" style="width:100px; height:100px; background:#ccc;"></div>
-        <div class="book-info">
-          <h3>Christopher Robin</h3>
-          <p>by Art Thor</p>
-        </div>
-      </div>
-
-      <div class="book-entry" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-        <div class="book-image-placeholder" style="width:100px; height:100px; background:#ccc;"></div>
-        <div class="book-info">
-          <h3>Christopher Robin</h3>
-          <p>by Arthur Thorox</p>
-        </div>
-      </div>
+    <div id="searchParameters" style="margin-bottom: 20px;"></div>
+    <section class="search_results" id="searchResultsContainer" style="padding: 2rem;">
     </section>
+    
     <script type="module" src="js/index.js"></script>
   </body>
 </html>
