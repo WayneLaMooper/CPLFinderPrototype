@@ -115,6 +115,35 @@
             margin-top: 20px;
             /* Adds space above the room section */
         }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
     </style>
 </head>
 
@@ -176,27 +205,32 @@
 
         <div class="library-layout">
             <div class="bookshelves">
-                <div class="shelf"></div>
-                <div class="shelf"></div>
-                <div class="shelf"></div>
-                <div class="shelf"></div>
-                <div class="shelf"></div>
+
             </div>
             <div class="room-layout">
                 <div class="table-area">
                     <div class="chair-container">
-                        <div class="chair"></div>
-                        <div class="chair"></div>
-                        <div class="chair"></div>
+
                     </div>
-                    <div class="table"></div>
+
                     <div class="chair-container">
-                        <div class="chair"></div>
-                        <div class="chair"></div>
-                        <div class="chair"></div>
+
                     </div>
                 </div>
                 <div class="room-section" id="room-map"></div>
+            </div>
+        </div>
+        <div id="booking-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn" id="close-modal">&times;</span>
+                <h2>Book Room</h2>
+                <form id="booking-form">
+                    <label for="username">Name:</label>
+                    <input type="text" id="username" required><br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required><br>
+                    <button type="submit">Book</button>
+                </form>
             </div>
         </div>
     </div>
@@ -283,86 +317,133 @@
             }
 
             // Function to update library layout based on the selected library
-            function updateLayout(selectedLibrary) {
-                // Clear existing layout
-                console.log("Updating layout for library:", selectedLibrary);
+            function updateLayout(selectedLibraryKey, selectedTime) {
                 const layoutContainer = document.querySelector('.library-layout');
-                const layoutType = libraries[selectedLibrary].layout_type;
-                const room_amount = libraries[selectedLibrary].total_rooms;
-                const room_status = libraries[selectedLibrary].room_status;
-                if (!layoutContainer) {
-                    console.error("Layout container not found.");
+                const selectedLibrary = libraries[selectedLibraryKey];
+
+                if (!layoutContainer || !selectedLibrary || !selectedTime) return;
+
+                const layoutType = selectedLibrary.layout_type;
+                const roomAmount = selectedLibrary.total_rooms;
+                const roomStatus = selectedLibrary.room_status[selectedTime];
+
+                if (!roomStatus || roomStatus.length !== roomAmount) {
+                    layoutContainer.innerHTML = '<p>Invalid room data for selected time.</p>';
                     return;
                 }
 
-                layoutContainer.innerHTML = ''; // Reset the layout container
+                // Generate room HTML with status classes
+                const roomHTML = roomStatus.map((status, index) => {
+                    const statusClass = status ? 'available' : 'booked';
+                    return `<div class="room ${statusClass}" data-room-index="${index}" id="room-${index + 1}">R${index + 1}</div>`;
+                }).join('');
+
+
+                layoutContainer.innerHTML = ''; // Reset
 
                 if (layoutType === 0) {
-                    // Layout 0: Room layout below bookshelves
                     layoutContainer.innerHTML = `
-                <div class="bookshelves">
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
+            <div class="bookshelves">
+                ${'<div class="shelf"></div>'.repeat(5)}
+            </div>
+            <div class="room-layout">
+                <div class="table-area">
+                    <div class="chair-container">${'<div class="chair"></div>'.repeat(3)}</div>
+                    <div class="table"></div>
+                    <div class="chair-container">${'<div class="chair"></div>'.repeat(3)}</div>
                 </div>
-                <div class="room-layout">
-                    <div class="table-area">
-                        <div class="chair-container">
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                        </div>
-                        <div class="table"></div>
-                        <div class="chair-container">
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                        </div>
-                    </div>
-                    <div class="room-section" id="room-map">
-                        ${Array.from({ length: room_amount }, (_, index) => {
-                        return `<div class="room" id="room-${index + 1}">R${index + 1}</div>`;
-                    }).join('')}
-                    </div>
+                <div class="room-section" id="room-map">
+                    ${roomHTML}
                 </div>
-            `;
+            </div>
+        `;
+                    // Attach event listeners to available rooms
+                    const roomDivs = layoutContainer.querySelectorAll('.room.available');
+                    roomDivs.forEach(room => {
+                        room.addEventListener('click', () => {
+                            const roomIndex = parseInt(room.getAttribute('data-room-index'), 10);
+                            openBookingModal(selectedLibraryKey, selectedTime, roomIndex);
+                        });
+                    });
+
                 } else if (layoutType === 1) {
-                    // Layout 1: Room layout above bookshelves
                     layoutContainer.innerHTML = `
-                <div class="room-layout">
-                    <div class="room-section" id="room-map">
-                        ${Array.from({ length: room_amount }, (_, index) => {
-                        return `<div class="room" id="room-${index + 1}">R${index + 1}</div>`;
-                    }).join('')}
-                    </div>
-                    <div class="table-area">
-                        <div class="chair-container">
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                        </div>
-                        <div class="table"></div>
-                        <div class="chair-container">
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                            <div class="chair"></div>
-                        </div>
-                    </div>
+            <div class="room-layout">
+                <div class="room-section" id="room-map">
+                    ${roomHTML}
                 </div>
-                <div class="bookshelves">
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
-                    <div class="shelf"></div>
+                <div class="table-area">
+                    <div class="chair-container">${'<div class="chair"></div>'.repeat(3)}</div>
+                    <div class="table"></div>
+                    <div class="chair-container">${'<div class="chair"></div>'.repeat(3)}</div>
                 </div>
-            `;
+            </div>
+            <div class="bookshelves">
+                ${'<div class="shelf"></div>'.repeat(5)}
+            </div>
+        `;
+                    // Attach event listeners to available rooms
+                    const roomDivs = layoutContainer.querySelectorAll('.room.available');
+                    roomDivs.forEach(room => {
+                        room.addEventListener('click', () => {
+                            const roomIndex = parseInt(room.getAttribute('data-room-index'), 10);
+                            openBookingModal(selectedLibraryKey, selectedTime, roomIndex);
+                        });
+                    });
+
                 } else {
-                    console.error("Unknown layout type:", layoutType);
+                    layoutContainer.innerHTML = '<p>Unknown layout type.</p>';
                 }
             }
+
+            function openBookingModal(libraryKey, time, roomIndex) {
+                const modal = document.getElementById("booking-modal");
+                const closeBtn = document.getElementById("close-modal");
+                const form = document.getElementById("booking-form");
+
+                modal.style.display = "flex";
+
+                closeBtn.onclick = () => {
+                    modal.style.display = "none";
+                    form.reset();
+                };
+
+                window.onclick = (event) => {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                        form.reset();
+                    }
+                };
+
+                form.onsubmit = (e) => {
+                    e.preventDefault();
+
+                    const name = document.getElementById("username").value;
+                    const email = document.getElementById("email").value;
+
+                    if (!name || !email) return;
+
+                    // Book the room
+                    libraries[libraryKey].room_status[time][roomIndex] = false;
+
+                    // Hide modal and reset form
+                    modal.style.display = "none";
+                    form.reset();
+
+                    // Re-render layout
+                    updateLayout(libraryKey, time);
+
+                    // Update available room count text
+                    const updatedRoomStatus = libraries[libraryKey].room_status[time];
+                    const updatedAvailableCount = updatedRoomStatus.filter(status => status).length;
+                    libraryDetailsElement.textContent = `Total Rooms: ${libraries[libraryKey].total_rooms}, Available: ${updatedAvailableCount}`;
+                    libraryNameElement.textContent = `You selected: ${libraryKey} at ${time}`;
+
+                };
+
+            }
+
+
 
             // Handle dropdown change
             librarySelect.addEventListener("change", () => {
@@ -384,35 +465,31 @@
                     }
                     timeSelect.disabled = false;
 
-                    // Update layout based on selected library
-                    updateLayout(selectedLibrary);
-
+                    // Prompt message
+                    const layoutContainer = document.querySelector('.library-layout');
+                    layoutContainer.innerHTML = '<p>Please select a time period to view room availability.</p>';
                 } else {
                     timeSelect.disabled = true;
                 }
             });
 
+
             timeSelect.addEventListener("change", () => {
-                const selectedLibrary = libraries[librarySelect.value];
+                const selectedLibraryKey = librarySelect.value;
                 const selectedTime = timeSelect.value;
 
-                if (!selectedLibrary || !selectedTime) return;
+                if (!selectedLibraryKey || !selectedTime) return;
 
+                const selectedLibrary = libraries[selectedLibraryKey];
                 const roomStatus = selectedLibrary.room_status[selectedTime];
-                roomMapElement.innerHTML = "";
-                libraryNameElement.textContent = `You selected: ${librarySelect.value} at ${selectedTime}`;
 
                 const availableCount = roomStatus.filter(status => status).length;
+                libraryNameElement.textContent = `You selected: ${selectedLibraryKey} at ${selectedTime}`;
                 libraryDetailsElement.textContent = `Total Rooms: ${selectedLibrary.total_rooms}, Available: ${availableCount}`;
 
-                roomStatus.forEach((status, index) => {
-                    const roomDiv = document.createElement("div");
-                    roomDiv.classList.add("room");
-                    roomDiv.textContent = `R${index + 1}`;
-                    roomDiv.classList.add(status ? "available" : "booked");
-                    roomMapElement.appendChild(roomDiv);
-                });
+                updateLayout(selectedLibraryKey, selectedTime);
             });
+
         });
 
     </script>
