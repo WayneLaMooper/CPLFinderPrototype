@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const releaseTo = urlParams.get('releaseTo') || '';
 
   // Build the search parameters string dynamically
-  let searchParamsText = ' Search results for:';
+  let searchParamsText = ' Search results for parameters:';
 
   if (searchTerm) {
     searchParamsText += `| Name: "${searchTerm}"`;
