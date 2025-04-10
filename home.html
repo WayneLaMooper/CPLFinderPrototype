@@ -41,7 +41,7 @@
       />
       <ul>
         <li><a href="./home.html">Home</a></li>
-        <li><a href="#books">Books</a></li>
+        <li><a href="./search_results.html">Books</a></li>
         <li><a href="#" onclick="goToStudySpaces()">Study Spaces</a></li>
         <li id="library-location">
           <a href="#">Selected Library: <span id="library-name">None</span><br />
@@ -65,40 +65,28 @@
         </button>
       </form>
       <div class="advanced_search">
-        <h3>Find the book you're looking for with Advanced Searching details</h3>
+        <h3>Find the book you're looking for with Advanced Searching details (These fields are optional)</h3>
         <div class="advanced_search_box">
-          <label for="genre" class="advanced_text">Select a Book Genre (Use autofill):</label>
-          <input list="genres" id="genre" name="genre" placeholder="Start typing to search..." class="advanced_field">
-          <datalist id="genres">
-              <option value="Fiction">
-              <option value="Non-fiction">
-              <option value="Mystery">
-              <option value="Fantasy">
-              <option value="Science Fiction">
-              <option value="Historical Fiction">
-              <option value="Biography">
-              <option value="Romance">
-              <option value="Thriller">
-              <option value="Self-help">
-              <option value="Art"></option>
-          </datalist>
+          <label for="genre" class="advanced_text">Select Book Genres (Please select suggested genres):</label>
+          <input list="genres" id="genre" name="genre" placeholder="Start typing to filter genres..." class="advanced_field">
+          <datalist id="genres"></datalist>
+          
+          <div id="selectedGenres" class="selected-genres">
+            <!-- Selected genres will be displayed here -->
+          </div>
         </div>
+        
         <div class="advanced_search_box">
           <label for="author" class="advanced_text">Enter Author Name:</label>
-          <input list="authors" id="author" name="author" placeholder="Start typing to search..." class="advanced_field">
-          <datalist id="authors">
-            <option value="Christopher J. Robin">
-            <option value="Christopher Walker">
-            <option value="Christopher Wilson">
-            <option value="Roald Dahl">
-            <option value="Robert Munch">
-        </datalist>
-      </div>
-      <div class="advanced_search_box">
-        <label class="advanced_text">Released between:</label>
-        <input type="date" id="release_time" name="release_time" class="advanced_field">
-        to
-        <input type="date" id="release_time" name="release_time" class="advanced_field">
+          <input list="authors" id="author" name="author" placeholder="Enter author name..." class="advanced_field">
+          <datalist id="authors"></datalist>
+        </div>
+        
+        <div class="advanced_search_box">
+          <label class="advanced_text">Released between:</label>
+          <input type="date" id="release_time_from" name="release_time_from" class="advanced_field"> to
+          <input type="date" id="release_time_to" name="release_time_to" class="advanced_field">
+        </div>
       </div>
     </div>
   </section>
