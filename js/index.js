@@ -242,27 +242,28 @@ document.addEventListener("DOMContentLoaded", function () {
   // Get the search parameters from sessionStorage or URL query params
   const urlParams = new URLSearchParams(window.location.search);
   const searchTerm = urlParams.get('searchTerm') || '';
+  const urlSelectedGenres = JSON.parse(urlParams.get('selectedGenres') || '[]');
   const author = urlParams.get('author') || '';
   const releaseFrom = urlParams.get('releaseFrom') || '';
   const releaseTo = urlParams.get('releaseTo') || '';
 
   // Build the search parameters string dynamically
-  let searchParamsText = 'Search results for:';
+  let searchParamsText = ' Search results for:';
 
   if (searchTerm) {
-    searchParamsText += ` Name: "${searchTerm}"`;
+    searchParamsText += `| Name: "${searchTerm}"`;
   }
 
-  if (selectedGenres.length > 0) {
-    searchParamsText += ` Genres: ${selectedGenres.join(', ')}`;
+  if (urlSelectedGenres.length > 0) {
+    searchParamsText += `| Genres: ${urlSelectedGenres.join(', ')}`;
   }
 
   if (author) {
-    searchParamsText += ` Author: "${author}"`;
+    searchParamsText += `| Author: "${author}"`;
   }
 
   if (releaseFrom || releaseTo) {
-    searchParamsText += ` Published Between: ${releaseFrom || 'Any'} - ${releaseTo || 'Any'}`;
+    searchParamsText += `| Published Between: ${releaseFrom || 'Any'} - ${releaseTo || 'Any'}`;
   }
 
   // Display the search parameters text above the results
