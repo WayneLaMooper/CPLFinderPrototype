@@ -78,6 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
       closeButton.addEventListener('click', function () {
         popup.style.display = 'none';
         overlay.style.display = 'none';
+        if (!selectedLibrary) {
+          sessionStorage.setItem('library-name', 'None')
+          localStorage.setItem('selectedLibrary', 'None');
+        }
       });
 
       popup.style.display = 'block';
