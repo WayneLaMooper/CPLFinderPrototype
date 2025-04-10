@@ -116,26 +116,35 @@
             /* Adds space above the room section */
         }
 
+        /* Modal backdrop (optional if you have one) */
         .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* dark background */
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 999;
         }
 
+        /* Modal content box */
         .modal-content {
-            background: white;
+            background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            width: 300px;
+            border-radius: 12px;
+            width: 350px;
+            max-width: 90%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
+
 
         .close-btn {
             position: absolute;
@@ -171,6 +180,8 @@
                     <option value="">--Choose Time--</option>
                 </select>
             </div>
+            <button id="cancel-booking-btn">Cancel a Booking</button>
+
         </div>
 
         <h2 id="library-name"></h2>
@@ -220,19 +231,19 @@
                 <div class="room-section" id="room-map"></div>
             </div>
         </div>
-        <div id="booking-modal" class="modal" style="display:none;">
+        <div id="booking-modal" class="modal" style="display: none;">
             <div class="modal-content">
-                <span class="close-btn" id="close-modal">&times;</span>
                 <h2>Book Room</h2>
                 <form id="booking-form">
-                    <label for="username">Name:</label>
-                    <input type="text" id="username" required><br>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" required><br>
+                    <input type="text" id="username" placeholder="Your Name" required />
+                    <input type="email" id="email" placeholder="Your Email" required />
                     <button type="submit">Book</button>
                 </form>
+                <button id="cancel-button">Cancel</button>
             </div>
         </div>
+
+
     </div>
     <script>
         const libraries = {
@@ -398,22 +409,24 @@
 
             function openBookingModal(libraryKey, time, roomIndex) {
                 const modal = document.getElementById("booking-modal");
-                const closeBtn = document.getElementById("close-modal");
                 const form = document.getElementById("booking-form");
 
+                const bookingID = `${libraryKey}-R${roomIndex + 1}-${Date.now()}`;
+                const confirmationCode = Math.floor(100000 + Math.random() * 900000); // 6-digit
+
+                // Store in memory
+                if (!window.bookings) window.bookings = {};
+                window.bookings[bookingID] = {
+                    libraryKey,
+                    time,
+                    roomIndex,
+                    confirmationCode
+                };
+
+                console.log(`Booking ID: ${bookingID}`);
+                console.log(`Confirmation Code: ${confirmationCode}`);
+
                 modal.style.display = "flex";
-
-                closeBtn.onclick = () => {
-                    modal.style.display = "none";
-                    form.reset();
-                };
-
-                window.onclick = (event) => {
-                    if (event.target === modal) {
-                        modal.style.display = "none";
-                        form.reset();
-                    }
-                };
 
                 form.onsubmit = (e) => {
                     e.preventDefault();
@@ -423,26 +436,63 @@
 
                     if (!name || !email) return;
 
-                    // Book the room
+                    modal.style.display = "none";
+
+                    // Ask for confirmation code
+                    const userInputCode = prompt("Enter the 6-digit confirmation code shown in console to confirm your booking:");
+
+                    if (!userInputCode || parseInt(userInputCode) !== confirmationCode) {
+                        alert("Incorrect confirmation code. Booking not confirmed.");
+                        return;
+                    }
+
+                    // Mark the room as booked
                     libraries[libraryKey].room_status[time][roomIndex] = false;
 
-                    // Hide modal and reset form
-                    modal.style.display = "none";
-                    form.reset();
-
-                    // Re-render layout
+                    // Refresh layout
                     updateLayout(libraryKey, time);
 
-                    // Update available room count text
+                    // Update text
                     const updatedRoomStatus = libraries[libraryKey].room_status[time];
                     const updatedAvailableCount = updatedRoomStatus.filter(status => status).length;
                     libraryDetailsElement.textContent = `Total Rooms: ${libraries[libraryKey].total_rooms}, Available: ${updatedAvailableCount}`;
                     libraryNameElement.textContent = `You selected: ${libraryKey} at ${time}`;
 
+                    alert("Booking confirmed successfully.");
                 };
-
             }
 
+            document.getElementById("cancel-button").onclick = () => {
+                document.getElementById("booking-modal").style.display = "none";
+            };
+
+
+
+            document.getElementById("cancel-booking-btn").addEventListener("click", () => {
+                const bookingID = prompt("Enter your Booking ID to cancel:");
+
+                if (!bookingID || !window.bookings[bookingID]) {
+                    alert("Invalid Booking ID.");
+                    return;
+                }
+
+                const { libraryKey, time, roomIndex } = window.bookings[bookingID];
+
+                // Mark the room as available again
+                libraries[libraryKey].room_status[time][roomIndex] = true;
+
+                // Refresh layout
+                updateLayout(libraryKey, time);
+
+                // Update text
+                const updatedRoomStatus = libraries[libraryKey].room_status[time];
+                const updatedAvailableCount = updatedRoomStatus.filter(status => status).length;
+                libraryDetailsElement.textContent = `Total Rooms: ${libraries[libraryKey].total_rooms}, Available: ${updatedAvailableCount}`;
+                libraryNameElement.textContent = `You selected: ${libraryKey} at ${time}`;
+
+                alert("Booking canceled successfully.");
+                delete window.bookings[bookingID];
+            });
 
 
             // Handle dropdown change
