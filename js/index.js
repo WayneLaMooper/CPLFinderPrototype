@@ -3,24 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const popup = document.getElementById('popup');
   const overlay = document.getElementById('overlay');
-  const closeButton = document.getElementById('closePopup');
-  const libraryGrid = document.getElementById('libraryGrid');
-
-  // Simulate fetching data from libraries.json (this can be replaced with a fetch if using a real JSON file)
-  const libraries = [
-    {
-      "name": "Shawnessy Library",
-      "address": "333 Shawville Blvd SE, Calgary, AB T2Y 4H3",
-      "quadrant": "SE",
-      "image": "images/shawnessy_library.jpg"
-    },
-    {
-      "name": "Village Square Library",
-      "address": "2623 56 St NE, Calgary, AB T1Y 6E7",
-      "quadrant": "NE",
-      "image": "images/village_square_library.jpg"
-    }
-  ];
 
   // Function to display libraries in the grid
   fetch('./json/libraries.json')  // Path to your libraries.json file
@@ -83,10 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
           const address = selectedLibrary.getAttribute('data-address');
           const image = selectedLibrary.getAttribute('data-image');
 
-          // Preserve existing behavior
-          console.log(`Selected Library: ${name}`);
-          console.log(`Address: ${address}`);
-          document.getElementById('library-name').textContent = name;
+        // Here you can save the location (e.g., local storage or server)
+        console.log(`Selected Library: ${name}`);
+        sessionStorage.setItem('library-name', name)
+        console.log(`Address: ${address}`);
+        document.getElementById('library-name').textContent = name;
 
           // Store selected library name for redirect usage
           localStorage.setItem('selectedLibrary', name);
@@ -124,22 +107,29 @@ document.addEventListener("DOMContentLoaded", function () {
       // Initially display all libraries
       displayLibraries(libraries);
 
-      const libraryLocationButton = document.getElementById('library-location');
-      libraryLocationButton.addEventListener('click', function () {
-        popup.style.display = 'block';
-        overlay.style.display = 'block';
-      });
-    })
-    .catch(error => {
-      console.error('Error loading libraries.json:', error);
+    const libraryLocationButton = document.getElementById('library-location');
+    libraryLocationButton.addEventListener('click', function() {
+      popup.style.display = 'block';
+      overlay.style.display = 'block';
     });
 
+    const selectedLibrary = sessionStorage.getItem('library-name');
+
+    if (selectedLibrary) {
+      document.getElementById('library-name').textContent = selectedLibrary;
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+  })
+  .catch(error => {
+    console.error('Error loading libraries.json:', error);
+  });
 
 
   // Set up event listener for genre input
   const genreInput = document.getElementById("genre");
-  genreInput.addEventListener("input", function () {
-    console.log(genreInput.value); // Log the genre input value
+  genreInput.addEventListener("input", function() {
+      console.log(genreInput.value); // Log the genre input value
   });
 
   // Get the advanced search section and hide it initially
@@ -147,7 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
   advanced_menu.style.display = "none";
 
   // Toggle visibility of advanced search section
-  function toggleAdvanced() {
+  function toggleAdvanced(event) {
+    // Prevent toggling menu from initiating a search
+    event.preventDefault();
     if (advanced_menu.style.display === "none") {
       advanced_menu.style.display = "block";
     } else {
@@ -159,4 +151,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const advancedSearchButton = document.querySelector(".advanced_search_button");
   advancedSearchButton.addEventListener("click", toggleAdvanced);
 
+  document.getElementById('searchInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the Enter key from triggering the advanced search button click
+      document.getElementById('searchForm').submit(); // Manually submit the form
+    }
+  });
+  
 });

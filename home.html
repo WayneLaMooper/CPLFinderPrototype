@@ -33,57 +33,65 @@
     <button id="closePopup">Skip</button>
   </div>
 
-  <header class="nav_bar">
-    <img src="images/cpl_logo.png" alt="Calgary Public Library Logo" class="logo_img" />
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#books">Books</a></li>
-      <li><a href="#" onclick="goToStudySpaces()">Study Spaces</a></li>
-
-      <li id="library-location">
-        <a href="#">Selected Library: <span id="library-name">None</span><br />
-          <span id="info_text">Click here to Change</span></a>
-      </li>
-    </ul>
-  </header>
-  <section class="home_search">
-    <form action="#searching">
-      <button class="advanced_search_button" onclick="toggleAdvanced()">
-        Advanced Search
-      </button>
-      <input class="search_bar" type="text" placeholder="Search for Titles..." />
-      <button class="search_button" type="submit">
-        <i class="fa fa-search"></i>
-      </button>
-    </form>
-    <div class="advanced_search">
-      <h3>Find the book you're looking for with Advanced Searching details</h3>
-      <div class="advanced_search_box">
-        <label for="genre" class="advanced_text">Select a Book Genre (Use autofill):</label>
-        <input list="genres" id="genre" name="genre" placeholder="Start typing to search..." class="advanced_field">
-        <datalist id="genres">
-          <option value="Fiction">
-          <option value="Non-fiction">
-          <option value="Mystery">
-          <option value="Fantasy">
-          <option value="Science Fiction">
-          <option value="Historical Fiction">
-          <option value="Biography">
-          <option value="Romance">
-          <option value="Thriller">
-          <option value="Self-help">
-          <option value="Art"></option>
-        </datalist>
-      </div>
-      <div class="advanced_search_box">
-        <label for="author" class="advanced_text">Enter Author Name:</label>
-        <input list="authors" id="author" name="author" placeholder="Start typing to search..." class="advanced_field">
-        <datalist id="authors">
-          <option value="Christopher J. Robin">
-          <option value="Christopher Walker">
-          <option value="Christopher Wilson">
-          <option value="Roald Dahl">
-          <option value="Robert Munch">
+<header class="nav_bar">
+      <img
+        src="images/cpl_logo.png"
+        alt="Calgary Public Library Logo"
+        class="logo_img"
+      />
+      <ul>
+        <li><a href="./home.html">Home</a></li>
+        <li><a href="#books">Books</a></li>
+        <li><a href="#" onclick="goToStudySpaces()">Study Spaces</a></li>
+        <li id="library-location">
+          <a href="#">Selected Library: <span id="library-name">None</span><br />
+            <span id="info_text">Click here to Change</span></a>
+        </li>
+      </ul>
+    </header>
+    <section class="home_search">
+      <form action="./search_results.html" id="searchForm">
+        <button class="advanced_search_button">
+          Advanced Search
+        </button>
+        <input
+          class="search_bar"
+          type="text"
+          placeholder="Search for Titles..."
+          id="searchInput"
+        />
+        <button class="search_button" type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+      <div class="advanced_search">
+        <h3>Find the book you're looking for with Advanced Searching details</h3>
+        <div class="advanced_search_box">
+          <label for="genre" class="advanced_text">Select a Book Genre (Use autofill):</label>
+          <input list="genres" id="genre" name="genre" placeholder="Start typing to search..." class="advanced_field">
+          <datalist id="genres">
+              <option value="Fiction">
+              <option value="Non-fiction">
+              <option value="Mystery">
+              <option value="Fantasy">
+              <option value="Science Fiction">
+              <option value="Historical Fiction">
+              <option value="Biography">
+              <option value="Romance">
+              <option value="Thriller">
+              <option value="Self-help">
+              <option value="Art"></option>
+          </datalist>
+        </div>
+        <div class="advanced_search_box">
+          <label for="author" class="advanced_text">Enter Author Name:</label>
+          <input list="authors" id="author" name="author" placeholder="Start typing to search..." class="advanced_field">
+          <datalist id="authors">
+            <option value="Christopher J. Robin">
+            <option value="Christopher Walker">
+            <option value="Christopher Wilson">
+            <option value="Roald Dahl">
+            <option value="Robert Munch">
         </datalist>
       </div>
       <div class="advanced_search_box">

@@ -1,0 +1,93 @@
+[
+    {
+      "id": 1,
+      "name": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "genres": ["Fiction", "Historical Fiction"],
+      "publishing_date": "1960-07-11",
+      "image": "https://m.media-amazon.com/images/I/81OthjkJBuL._AC_UL320_.jpg",
+      "synopsis": "A novel of warmth and humor, despite dealing with serious issues like racial injustice and the loss of innocence, set in the Deep South during the 1930s."
+    },
+    {
+      "id": 2,
+      "name": "1984",
+      "author": "George Orwell",
+      "genres": ["Dystopian", "Science Fiction"],
+      "publishing_date": "1949-06-08",
+      "image": "https://m.media-amazon.com/images/I/71kxa1-0FwL._AC_UL320_.jpg",
+      "synopsis": "A chilling portrayal of a totalitarian regime that uses surveillance, censorship, and propaganda to control every aspect of life."
+    },
+    {
+      "id": 3,
+      "name": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "genres": ["Classic", "Tragedy"],
+      "publishing_date": "1925-04-10",
+      "image": "https://m.media-amazon.com/images/I/71v2aTcDA+L._AC_UL320_.jpg",
+      "synopsis": "A tale of the American dream gone wrong, set in the Jazz Age and following the mysterious millionaire Jay Gatsby and his obsession with the elusive Daisy Buchanan."
+    },
+    {
+      "id": 4,
+      "name": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "genres": ["Romance", "Classics"],
+      "publishing_date": "1813-01-28",
+      "image": "https://m.media-amazon.com/images/I/71gkq3bI7wL._AC_UL320_.jpg",
+      "synopsis": "A romantic novel exploring the complexities of love, marriage, and society, centered on Elizabeth Bennet and the proud Mr. Darcy."
+    },
+    {
+      "id": 5,
+      "name": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "genres": ["Fantasy", "Adventure"],
+      "publishing_date": "1937-09-21",
+      "image": "https://m.media-amazon.com/images/I/81EdFSkFw9L._AC_UL320_.jpg",
+      "synopsis": "A young hobbit, Bilbo Baggins, embarks on a journey to help a group of dwarves reclaim their homeland from a dragon, encountering dangers and treasures along the way."
+    },
+    {
+      "id": 6,
+      "name": "Moby-Dick",
+      "author": "Herman Melville",
+      "genres": ["Adventure", "Classic"],
+      "publishing_date": "1851-10-18",
+      "image": "https://m.media-amazon.com/images/I/81+DtMMpH2L._AC_UL320_.jpg",
+      "synopsis": "The obsessive quest of Captain Ahab to hunt the white whale Moby Dick, exploring themes of fate, revenge, and the natural world."
+    },
+    {
+      "id": 7,
+      "name": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "genres": ["Fiction", "Coming-of-Age"],
+      "publishing_date": "1951-07-16",
+      "image": "https://m.media-amazon.com/images/I/91zzHQHVpAL._AC_UL320_.jpg",
+      "synopsis": "A young man named Holden Caulfield reflects on his life, identity, and the disillusionment of adulthood as he navigates his teenage years in New York City."
+    },
+    {
+      "id": 8,
+      "name": "The Lord of the Rings: The Fellowship of the Ring",
+      "author": "J.R.R. Tolkien",
+      "genres": ["Fantasy", "Adventure"],
+      "publishing_date": "1954-07-29",
+      "image": "https://m.media-amazon.com/images/I/81dWZMbAqfL._AC_UL320_.jpg",
+      "synopsis": "The first book in the epic Lord of the Rings trilogy, following Frodo Baggins as he begins his perilous journey to destroy the One Ring and save Middle-earth."
+    },
+    {
+      "id": 9,
+      "name": "Harry Potter and the Sorcerer's Stone",
+      "author": "J.K. Rowling",
+      "genres": ["Fantasy", "Young Adult"],
+      "publishing_date": "1997-06-26",
+      "image": "https://m.media-amazon.com/images/I/91vhPdpG7zL._AC_UL320_.jpg",
+      "synopsis": "A young boy named Harry Potter discovers he is a wizard and attends Hogwarts School of Witchcraft and Wizardry, where he uncovers a dark secret about his past."
+    },
+    {
+      "id": 10,
+      "name": "Brave New World",
+      "author": "Aldous Huxley",
+      "genres": ["Dystopian", "Science Fiction"],
+      "publishing_date": "1932-08-01",
+      "image": "https://m.media-amazon.com/images/I/81JbREOlVsL._AC_UL320_.jpg",
+      "synopsis": "A dystopian novel set in a future society where humans are engineered and conditioned for specific roles, exploring themes of conformity, technology, and individuality."
+    }
+  ]
+  
