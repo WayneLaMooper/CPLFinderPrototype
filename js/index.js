@@ -1,3 +1,7 @@
+/**   Generation of code for this document was assisted by the use of ChatGPT
+      All design decisions and ideas made within previous prototypes and during the
+      construction of this final vertical prototype are our own */
+
 document.addEventListener("DOMContentLoaded", function () {
   const popup = document.getElementById("popup");
   const overlay = document.getElementById("overlay");
