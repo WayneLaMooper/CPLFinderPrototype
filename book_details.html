@@ -145,44 +145,44 @@
         bookCatalogElement.textContent = selectedBook.id;
 
         // First, render the selected library button (if it exists in the object)
-if (selectedBook.libraryAvailability[selectedLibrary]) {
-  const details = selectedBook.libraryAvailability[selectedLibrary];
-  const button = document.createElement("button");
-  button.classList.add("library-button");
-  button.textContent = `Check availability at ${selectedLibrary}`;
+        if (selectedBook.libraryAvailability[selectedLibrary]) {
+          const details = selectedBook.libraryAvailability[selectedLibrary];
+          const button = document.createElement("button");
+          button.classList.add("library-button");
+          button.textContent = `Check availability at ${selectedLibrary}`;
 
-  if (details.quantity <= 0) {
-    button.classList.add("library-button-unavailable");
-  }
+          if (details.quantity <= 0) {
+            button.classList.add("library-button-unavailable");
+          }
 
-  button.onclick = () => {
-    selectedLibrary = sessionStorage.getItem("library-name"); // Reaffirm selected library
-    updateAvailabilityStatus();
-  };
+          button.onclick = () => {
+            selectedLibrary = sessionStorage.getItem("library-name"); // Reaffirm selected library
+            updateAvailabilityStatus();
+          };
 
-  libraryButtonsContainer.appendChild(button);
-  updateAvailabilityStatus();
-}
+          libraryButtonsContainer.appendChild(button);
+          updateAvailabilityStatus();
+        }
 
-// Then, render other libraries that have availability
-Object.keys(selectedBook.libraryAvailability).forEach((library) => {
-  if (library === selectedLibrary) return; // Already handled
+        // Then, render other libraries that have availability
+        Object.keys(selectedBook.libraryAvailability).forEach((library) => {
+          if (library === selectedLibrary) return; // Already handled
 
-  const details = selectedBook.libraryAvailability[library];
+          const details = selectedBook.libraryAvailability[library];
 
-  if (details.quantity > 0) {
-    const button = document.createElement("button");
-    button.classList.add("library-button");
-    button.textContent = `Check availability at ${library}`;
+          if (details.quantity > 0) {
+            const button = document.createElement("button");
+            button.classList.add("library-button");
+            button.textContent = `Check availability at ${library}`;
 
-    button.onclick = () => {
-      selectedLibrary = library;
-      updateAvailabilityStatus();
-    };
+            button.onclick = () => {
+              selectedLibrary = library;
+              updateAvailabilityStatus();
+            };
 
-    libraryButtonsContainer.appendChild(button);
-  }
-});
+            libraryButtonsContainer.appendChild(button);
+          }
+        });
       } else {
         // In case no book is selected, handle gracefully (e.g., display a message or redirect)
         bookTitleElement.textContent = "Book not found";
