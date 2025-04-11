@@ -278,17 +278,41 @@ document.addEventListener("DOMContentLoaded", function () {
     searchResultsContainer.innerHTML = '<p>No results found.</p>';
   } else {
     results.forEach(book => {
-      const bookHTML = `
-        <div class="book-entry" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-          <img src="${book.image}" alt="${book.name}" style="width:100px; height:100px; object-fit:cover;" />
-          <div class="book-info">
-            <h3>${book.name}</h3>
-            <p>by ${book.author}</p>
-            <p>${book.synopsis}</p>
+      const bookDiv = document.createElement('div');
+      bookDiv.classList.add('book-entry');
+      bookDiv.style.cssText = "display: flex; gap: 1rem; margin-top: 1.5rem; cursor: pointer;";
+      bookDiv.dataset.bookName = book.name; //
+    
+      bookDiv.innerHTML = `
+        <img src="${book.image}" alt="${book.name}" style="width:100px; height:100px; object-fit:cover;" />
+        <div class="book-info">
+          <h3>${book.name}</h3>
+          <p>by ${book.author}</p>
+          <p>${book.synopsis}</p>
+          <div class="availability-info">
+            <strong>Availability:</strong>
+            ${Object.entries(book.library_availability || {}).map(([library, details]) => {
+              if (details.quantity === 0) {
+                return `<p><em>${library}</em>: Not Available</p>`;
+              }
+              return `
+                <p><em>${library}</em>: ${details.quantity} available 
+                (Floor: ${details.floor}, Aisle: ${details.aisle})</p>
+              `;
+            }).join('')}
           </div>
         </div>
       `;
-      searchResultsContainer.insertAdjacentHTML('beforeend', bookHTML);
+
+    
+      bookDiv.addEventListener('click', () => {
+        sessionStorage.setItem('selectedBook', JSON.stringify(book));
+        window.location.href = `book_details.html?book=${encodeURIComponent(book.name)}`;
+        
+      });
+    
+      searchResultsContainer.appendChild(bookDiv);
     });
   }
+  
 });
