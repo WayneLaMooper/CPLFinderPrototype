@@ -189,9 +189,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // === Search functionality ===
-  searchForm.addEventListener("submit", async function (e) {
-    e.preventDefault(); // Prevent the form from submitting in the default way
-
+  async function performBookSearch({
+    shouldRedirect = true,
+    shouldRender = true,
+  } = {}) {
     const searchTerm = searchInput.value.trim();
     const selectedGenresLower = selectedGenres.map((genre) =>
       genre.toLowerCase()
@@ -200,7 +201,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const releaseFrom = document.getElementById("release_time_from").value;
     const releaseTo = document.getElementById("release_time_to").value;
 
-    // Store selected genres in sessionStorage (if needed for later use)
     sessionStorage.setItem(
       "selectedGenres",
       JSON.stringify(selectedGenresLower)
@@ -210,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch("./json/books.json");
       const books = await response.json();
 
-      // Filter books based on the search term and advanced search filters
       const matchedBooks = books.filter((book) => {
         const matchesSearchTerm = book.name.toLowerCase().includes(searchTerm);
         const matchesGenres =
@@ -222,7 +221,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const matchesAuthor = author
           ? book.author.toLowerCase().includes(author)
           : true;
-
         const matchesReleaseDate =
           (!releaseFrom ||
             new Date(book.publishing_date) >= new Date(releaseFrom)) &&
@@ -236,22 +234,31 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       });
 
-      // Store results in sessionStorage for use on the search results page
       sessionStorage.setItem("searchResults", JSON.stringify(matchedBooks));
 
-      // Create URL parameters to pass search details to the results page
-      const queryParams = new URLSearchParams();
-      queryParams.append("searchTerm", searchTerm);
-      queryParams.append("selectedGenres", JSON.stringify(selectedGenresLower)); // Pass genres as JSON string
-      queryParams.append("author", author);
-      queryParams.append("releaseFrom", releaseFrom);
-      queryParams.append("releaseTo", releaseTo);
+      if (shouldRedirect) {
+        const queryParams = new URLSearchParams();
+        queryParams.append("searchTerm", searchTerm);
+        queryParams.append(
+          "selectedGenres",
+          JSON.stringify(selectedGenresLower)
+        );
+        queryParams.append("author", author);
+        queryParams.append("releaseFrom", releaseFrom);
+        queryParams.append("releaseTo", releaseTo);
 
-      // Navigate to the search results page with the query parameters
-      window.location.href = `./search_results.html?${queryParams.toString()}`;
+        window.location.href = `./search_results.html?${queryParams.toString()}`;
+      } else if (shouldRender) {
+        renderBooksOnPage(matchedBooks); // Optional rendering
+      }
     } catch (error) {
       console.error("Failed to fetch or filter books:", error);
     }
+  }
+
+  searchForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    performBookSearch(true, true);
   });
 
   // Ensure hitting "Enter" triggers the form submission
@@ -314,16 +321,16 @@ document.addEventListener("DOMContentLoaded", function () {
       bookDiv.classList.add("book-entry");
       bookDiv.style.cssText =
         "display: flex; gap: 1rem; margin-top: 1.5rem; cursor: pointer;";
-      bookDiv.dataset.bookName = book.name; //
+      bookDiv.dataset.bookName = book.name;
 
       bookDiv.innerHTML = `
-  <img src="${book.image}" alt="${book.name}" style="width:100px; height:100px; object-fit:cover;" />
-  <div class="book-info">
-    <h3>${book.name}</h3>
-    <p>by ${book.author}</p>
-    <p>${book.synopsis}</p>
-  </div>
-`;
+        <img src="${book.image}" alt="${book.name}" style="width:100px; height:100px; object-fit:cover;" />
+        <div class="book-info">
+          <h3>${book.name}</h3>
+          <p>by ${book.author}</p>
+          <p>${book.synopsis}</p>
+        </div>
+      `;
 
       bookDiv.addEventListener("click", () => {
         sessionStorage.setItem("selectedBook", JSON.stringify(book));
