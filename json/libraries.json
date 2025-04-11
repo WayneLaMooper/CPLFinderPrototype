@@ -1,26 +1,26 @@
 [
     {
+        "name": "Crowfoot Library",
+        "address": "8665 Nose Hill Drive NW, Calgary, AB T3G 5T3",
+        "quadrant": "NW",
+        "image": "images/crowfoot.jpg"
+      },
+      {
         "name": "Shawnessy Library",
         "address": "333 Shawville Blvd SE, Calgary, AB T2Y 4H3",
         "quadrant": "SE",
         "image": "images/shawnessy.jpg"
-    },
-    {
+      },
+      {
         "name": "Central Library",
         "address": "2623 56 St NE, Calgary, AB T1Y 6E7",
         "quadrant": "NE",
-        "image": "images/village_square.jpg"
-    },
-    {
+        "image": "images/central.jpg"
+      },
+      {
         "name": "Fish Creek Library",
         "address": "333 Shawville Blvd SW, Calgary, AB T2Y 4H3",
         "quadrant": "SW",
-        "image": "images/shawnessy.jpg"
-    },
-    {
-        "name": "Crowfoot Library",
-        "address": "2623 56 St NW, Calgary, AB T1Y 6E7",
-        "quadrant": "NW",
-        "image": "images/village_square.jpg"
-    }
+        "image": "images/fish_creek.jpg"
+      }
 ]
