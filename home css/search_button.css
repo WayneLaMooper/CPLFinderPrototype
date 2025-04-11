@@ -5,9 +5,17 @@
     border: 2px solid #ccc;
 }
 
+.search_button:hover {
+    background-color: #7e7a7a;
+}
+
 .advanced_search_button {
     font-size: 1em;
     border-radius: 15px;
     padding: 10px;
     border: 2px solid #ccc;
+}
+
+.advanced_search_button:hover {
+    background-color: #7e7a7a;
 }

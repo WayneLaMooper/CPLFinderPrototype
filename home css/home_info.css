@@ -30,3 +30,7 @@
     padding: 10px;
     border: 2px solid #ccc;
 }
+
+.info_button:hover {
+    background-color: #7e7a7a;
+}
