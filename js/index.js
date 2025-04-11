@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     shouldRedirect = true,
     shouldRender = true,
   } = {}) {
-    const searchTerm = searchInput.value.trim();
+    const searchTerm = searchInput.value.trim().toLowerCase();
     const selectedGenresLower = selectedGenres.map((genre) =>
       genre.toLowerCase()
     );
