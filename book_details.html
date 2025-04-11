@@ -1,100 +1,188 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Details - CPL Finder</title>
     <link rel="stylesheet" href="./home css/body.css" />
+    <link rel="stylesheet" href="./home css/pop_up.css" />
     <link rel="stylesheet" href="./home css/nav_bar.css" />
-    <link rel="stylesheet" href="./home css/home_search.css" />
-    <link rel="stylesheet" href="./home css/search_bar.css" />
-    <link rel="stylesheet" href="./home css/search_button.css" />
-    <link rel="stylesheet" href="./home css/advanced_search.css"/>
-    <link rel="stylesheet" href="./home css/home_info.css"/>
     <link rel="stylesheet" href="book_details.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   </head>
   <body>
+    <div id="overlay" class="overlay"></div>
+
+    <div id="popup" class="popup">
+      <h2>Welcome to CPL Finder!</h2>
+      <p>
+        Please choose your library from the following for a more catered
+        experience: <br />
+        (This can be changed at any time)
+      </p>
+      <div id="quadrantFilter">
+        Filter by quadrant:
+        <label><input type="checkbox" value="NE" /> NE</label><br />
+        <label><input type="checkbox" value="NW" /> NW</label><br />
+        <label><input type="checkbox" value="SE" /> SE</label><br />
+        <label><input type="checkbox" value="SW" /> SW</label><br />
+      </div>
+      <div id="libraryGrid" class="library-grid"></div>
+      <button id="closePopup">Skip</button>
+    </div>
+
     <header class="nav_bar">
-      <img src="images/cpl_logo.png" alt="Calgary Public Library Logo" class="logo_img" />
+      <a href="./home.html">
+        <img
+          src="images/cpl_logo.png"
+          alt="Calgary Public Library Logo"
+          class="logo_img"
+        />
+      </a>
       <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="#books">Books</a></li>
-        <li><a href="study_space.html">Study Spaces</a></li>
+        <li><a href="./home.html">Home</a></li>
+        <li><a href="./search_results.html">Books</a></li>
+        <li><a href="#" onclick="goToStudySpaces()">Study Spaces</a></li>
+        <li id="library-location">
+          <a href="#"
+            >Selected Library: <span id="library-name">None</span><br />
+            <span id="info_text">Click here to Change</span></a
+          >
+        </li>
       </ul>
-      <h1>Welcome to CPL Finder</h1>
     </header>
 
     <section class="book_details">
       <div class="book-container">
-        <div class="book-image"></div>
+        <img
+          id="bookImage"
+          src=""
+          alt="Book Cover"
+          class="book-image"
+          style="width: 200px; height: 300px; border-radius: 8px"
+        />
         <div class="book-info">
-          <h2>Christopher Robin</h2>
-          <p><strong>By:</strong> Arthur Thorox</p>
-          <p><strong>Published:</strong> January 1, 2001</p>
-          <p><strong>Catalog:</strong> COAS015</p>
-          <p><strong>Genre:</strong> Fiction</p>
-            <div class="autocomplete-container">
-                <input type="text" id="search" placeholder="Search for Libraries..." onkeyup="showSuggestions()">
-                <div id="autocomplete-list" class="autocomplete-items"></div>
-            </div>
-            <button type="submit" onclick="findLibrary()">Search</button>
-          <p><strong>Status:</strong> <span class="status available">Available</span></p>
-          <p><strong>Floor:</strong> <span class="location-box">3</span></p>
-          <p><strong>Aisle:</strong> <span class="location-box">E</span></p>
+          <h2 id="bookTitle">Loading...</h2>
+          <p><strong>By:</strong> <span id="bookAuthor">Loading...</span></p>
+          <p><strong>Genre:</strong> <span id="bookGenre">Loading...</span></p>
+          <p>
+            <strong>Published:</strong>
+            <span id="bookPublished">Loading...</span>
+          </p>
+          <p>
+            <strong>Status:</strong>
+            <span id="bookStatus" class="status">Loading...</span>
+          </p>
+          <p>
+            <strong>Catalog ID:</strong>
+            <span id="bookCatalog">Loading...</span>
+          </p>
+
+          <p><strong>Select Library Location:</strong></p>
+          <div id="libraryButtonsContainer"></div>
+          <!-- Dynamic library buttons will appear here -->
+
+          <p><strong>Synopsis:</strong></p>
+          <p id="bookSynopsis">Loading...</p>
         </div>
       </div>
     </section>
+
     <script>
-      const libraries = {
-          "Central Library": { x: 250, y: 150 },
-          "Fish Creek Library": { x: 240, y: 200 },
-          "Crowfoot Library": { x: 150, y: 25 },
-          "Shawnessy Library": { x: 225, y: 280 }
-      };
+      // Fetch book data
+      const bookTitleElement = document.getElementById("bookTitle");
+      const bookAuthorElement = document.getElementById("bookAuthor");
+      const bookGenreElement = document.getElementById("bookGenre");
+      const bookPublishedElement = document.getElementById("bookPublished");
+      const bookStatusElement = document.getElementById("bookStatus");
+      const bookCatalogElement = document.getElementById("bookCatalog");
+      const bookSynopsisElement = document.getElementById("bookSynopsis");
+      const bookImageElement = document.getElementById("bookImage");
+      const libraryButtonsContainer = document.getElementById(
+        "libraryButtonsContainer"
+      );
 
-      function showSuggestions() {
-          const input = document.getElementById("search").value.toLowerCase();
-          const listContainer = document.getElementById("autocomplete-list");
+      // Function to update the availability status for the selected library
+      function updateAvailabilityStatus() {
+        if (
+          selectedLibrary &&
+          selectedBook.libraryAvailability[selectedLibrary]
+        ) {
+          const details = selectedBook.libraryAvailability[selectedLibrary];
+          const availabilityStatus =
+            details.quantity > 0
+              ? `${details.quantity} available (Floor: ${details.floor}, Aisle: ${details.aisle})`
+              : "Not Available";
 
-          listContainer.innerHTML = ""; // Clear previous suggestions
-
-          if (!input) return;
-
-          Object.keys(libraries).forEach(library => {
-              if (library.toLowerCase().includes(input)) {
-                  const suggestion = document.createElement("div");
-                  suggestion.textContent = library;
-                  suggestion.onclick = () => {
-                      document.getElementById("search").value = library;
-                      listContainer.innerHTML = ""; // Hide suggestions after selection
-                  };
-                  listContainer.appendChild(suggestion);
-              }
-          });
-      }
-
-      function findLibrary() {
-          const input = document.getElementById("search").value.trim();
-          const marker = document.getElementById("marker");
-          const proceedBtn = document.getElementById("proceedBtn");
-
-          if (libraries[input]) {
-              marker.style.left = libraries[input].x + "px";
-              marker.style.top = libraries[input].y + "px";
-              marker.style.display = "block";
-              proceedBtn.style.display = "block"; // Show proceed button
+          // Set the content of bookStatusElement based on availability status
+          if (details.quantity > 0) {
+            bookStatusElement.innerHTML = `<p class="status available"><em>${selectedLibrary}</em>: ${availabilityStatus}</p>`;
           } else {
-              alert("Library not found!");
-              marker.style.display = "none";
-              proceedBtn.style.display = "none"; // Hide proceed button if not found
+            bookStatusElement.innerHTML = `<p class="status not-available"><em>${selectedLibrary}</em>: ${availabilityStatus}</p>`;
           }
+        } else {
+          bookStatusElement.textContent =
+            "No availability data for this library.";
+        }
       }
 
-      function goToNextPage() {
-          const libraryName = document.getElementById("search").value.trim();
-          if (libraries[libraryName]) {
-              window.location.href = `innerLibrary.html?library=${encodeURIComponent(libraryName)}`;
+      // Retrieve selected book from sessionStorage
+      const selectedBook = JSON.parse(sessionStorage.getItem("selectedBook"));
+      selectedLibrary = sessionStorage.getItem("library-name");
+      console.log(selectedLibrary);
+
+      if (selectedBook) {
+        // Update HTML elements with the book data
+        bookTitleElement.textContent = selectedBook.name;
+        bookAuthorElement.textContent = selectedBook.author;
+        bookGenreElement.textContent = selectedBook.genres.join(", ");
+        bookPublishedElement.textContent = new Date(
+          selectedBook.publishing_date
+        ).toLocaleDateString();
+        bookSynopsisElement.textContent = selectedBook.synopsis;
+        bookImageElement.src = selectedBook.image;
+
+        // Update Catalog ID (using the 'id' from the book data)
+        bookCatalogElement.textContent = selectedBook.id;
+
+        // Dynamically create the buttons and update availability for selected library
+        Object.keys(selectedBook.libraryAvailability).forEach((library) => {
+          const details = selectedBook.libraryAvailability[library];
+          const button = document.createElement("button");
+          button.classList.add("library-button");
+
+          // If this is the selected library, show the button regardless of availability
+          if (library === selectedLibrary) {
+            button.textContent = `Check availability at ${library}`;
+
+            // If the default library is unavailable, apply the 'library-button-unavailable' class
+            if (details.quantity <= 0) {
+              button.classList.add("library-button-unavailable");
+            }
+
+            button.onclick = () => {
+              selectedLibrary = library; // Set the selected library
+              updateAvailabilityStatus(); // Update status based on selected library
+            };
+            libraryButtonsContainer.appendChild(button);
+
+            // Update the status for the selected library (whether available or not)
+            updateAvailabilityStatus();
+          } else if (details.quantity > 0) {
+            // Only show buttons for other libraries with availability
+            button.textContent = `Check availability at ${library}`;
+            button.onclick = () => {
+              selectedLibrary = library; // Set the selected library
+              updateAvailabilityStatus(); // Update status based on selected library
+            };
+            libraryButtonsContainer.appendChild(button);
           }
+        });
+      } else {
+        // In case no book is selected, handle gracefully (e.g., display a message or redirect)
+        bookTitleElement.textContent = "Book not found";
+        bookStatusElement.textContent = "No book selected or data is missing.";
       }
-  </script>
+    </script>
+    <script type="module" src="js/index.js"></script>
   </body>
 </html>
-
